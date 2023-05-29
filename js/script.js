@@ -66,18 +66,6 @@ function createSquare(className, text) {
   return quadrato;
 }
 
-// Funzione per generare gli indici delle mine sulla griglia
-function generateMineIndex(gridSize, numMines) {
-  const mineIndex = [];
-  while (mineIndex.length < numMines) {
-    const index = Math.floor(Math.random() * gridSize);
-    if (!mineIndex.includes(index)) {
-      mineIndex.push(index);
-    }
-  }
-  return mineIndex;
-}
-
 // Funzione per creare la griglia di gioco
 function createGrid(difficulty) {
   const gridSize = difficultyMap[difficulty];
@@ -90,11 +78,73 @@ function createGrid(difficulty) {
 
   for (let i = 0; i < gridSize; i++) {
     let quadrato = createSquare(className, i + 1);
-    if (mineIndex.includes(i)) {
-      quadrato.isMine = true;
-    }
+    quadrato.isMine = mineIndex.includes(i);
+    quadrato.isRevealed = false;
+
+    quadrato.addEventListener('click', function() {
+      handleSquareClick(quadrato);
+    });
+
     griglia.appendChild(quadrato);
   }
+}
+
+// Funzione per gestire il click su un quadrato
+function handleSquareClick(quadrato) {
+  if (!quadrato.isRevealed && !mineColpite) {
+    quadrato.isRevealed = true;
+    quadrato.classList.add('revealed');
+    score++;
+    document.getElementById('score').innerText = 'Punteggio: ' + score;
+
+    if (quadrato.isMine) {
+      disableSquareClick();
+      revealAllMines();
+      mineColpite = true;
+      document.getElementById('score').innerText = 'Hai Perso! :( Punti totali: ' + score;
+    } else if (score === (difficultyMap[selectElement.value] - 16)) {
+      disableSquareClick();
+      mineColpite = true;
+      document.getElementById('score').innerText = 'Hai Vinto! Punti totali: ' + score;
+    }
+  }
+}
+
+// Funzione per disabilitare il click sui quadrati
+function disableSquareClick() {
+  const quadrati = document.getElementsByClassName('quadratogen');
+  for (let i = 0; i < quadrati.length; i++) {
+    const quadrato = quadrati[i];
+    quadrato.removeEventListener('click', function() {
+      handleSquareClick(quadrato);
+    });
+    quadrato.classList.add('disabled');
+  }
+}
+
+// Funzione per mostrare tutte le mine nella griglia dopo aver cliccato su una mina
+function revealAllMines() {
+  const quadrati = document.getElementsByClassName('quadratogen');
+  for (let i = 0; i < quadrati.length; i++) {
+    const quadrato = quadrati[i];
+    if (quadrato.isMine) {
+      quadrato.classList.add('mine');
+    }
+    quadrato.isRevealed = true;
+    quadrato.classList.add('revealed');
+  }
+}
+
+// Funzione per generare gli indici delle mine sulla griglia
+function generateMineIndex(gridSize, numMines) {
+  const mineIndex = [];
+  while (mineIndex.length < numMines) {
+    const index = Math.floor(Math.random() * gridSize);
+    if (!mineIndex.includes(index)) {
+      mineIndex.push(index);
+    }
+  }
+  return mineIndex;
 }
 
 // Mappa delle dimensioni della griglia in base alla difficoltà
