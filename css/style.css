@@ -28,10 +28,10 @@ label{
 }
 
 h1{
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 700;
     color: #fff;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 h4{
@@ -128,7 +128,7 @@ select{
 
 #score {
     padding: 5px 5px;
-    margin: 10px 0;
+    margin: 5px 0;
     border: 2px dotted #fff;
     font-size: 22px;
     font-weight: 700;
