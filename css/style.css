@@ -94,18 +94,18 @@ select{
 }
   
 .quadratogen.quadrato{
-    width: calc(800px / 10);
-    height: calc(800px / 10);
+    width: calc(100% / 10);
+    height: calc(100% / 10);
 }
 
 .quadratogen.quadratodifn{
-    width: calc(800px / 9);
-    height: calc(800px / 9);
+    width: calc(100% / 9);
+    height: calc(100% / 9);
 }
 
 .quadratogen.quadratodifd{
-    width: calc(800px / 7);
-    height: calc(800px / 7);
+    width: calc(100% / 7);
+    height: calc(100% / 7);
 }
 
 
